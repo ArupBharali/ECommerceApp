@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceUserAPI", "ECommer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devleper Notes", "Devleper Notes", "{D32A7BCF-B2F3-4646-B215-97BD2D42B99B}"
 	ProjectSection(SolutionItems) = preProject
+		How microservices talk to each other.txt = How microservices talk to each other.txt
 		Redis.txt = Redis.txt
 		Troubleshooting notes.txt = Troubleshooting notes.txt
 	EndProjectSection

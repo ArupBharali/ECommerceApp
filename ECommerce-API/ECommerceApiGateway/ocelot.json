@@ -78,6 +78,7 @@
           "UserRole": "AdminOrManagerOnly" // Enforcing UserOnly policy
         }
       }
+  	}
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
