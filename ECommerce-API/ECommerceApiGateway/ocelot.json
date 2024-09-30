@@ -55,7 +55,8 @@
       "UpstreamPathTemplate": "/api/product/{everything}",
       "Methods": [ "Get", "Post", "Put", "Delete" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer" // Match the key used in AddAuthentication
+        "AuthenticationProviderKey": "Bearer", // Match the key used in AddAuthentication
+        "Role": ["User", "Admin"] // Required role for access
       }
     },
     {
@@ -70,9 +71,13 @@
       "UpstreamPathTemplate": "/api/admin/{everything}",
       "Methods": [ "Get", "Post", "Put", "Delete" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer" // Match the key used in AddAuthentication
+        "AuthenticationProviderKey": "Bearer", // Match the key used in AddAuthentication
+        //"AllowedScopes": [ "admin:access" ], // Optional: for scope-based control
+        //"Role": "Admin", // Required role for access
+        "AddClaimsToRequest": {
+          "UserRole": "AdminOrManagerOnly" // Enforcing UserOnly policy
+        }
       }
-    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"

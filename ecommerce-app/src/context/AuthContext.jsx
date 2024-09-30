@@ -1,6 +1,6 @@
 // src/context/AuthContext.js
 import { createContext, useState, useEffect } from 'react';
-import { getUserDetails } from '../services/authService'; // Assuming you have this service
+import { getUserDetails } from '../services/userService'; // Assuming you have this service
 import PropTypes from 'prop-types';
 
 const AuthContext = createContext();

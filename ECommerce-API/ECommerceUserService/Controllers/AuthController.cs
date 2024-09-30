@@ -40,7 +40,9 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Invalid login attempt" });
         }
 
-        var token = _tokenService.GenerateToken(user.Id);
+        var roles = await _userManager.GetRolesAsync(user); // Return roles as a list;
+
+        var token = _tokenService.GenerateToken(user.Id, roles.ToList());
         return Ok(new { Token = token });
     }
   
@@ -64,38 +66,7 @@ public class AuthController : ControllerBase
         return BadRequest(result.Errors);
     }
   
-    [HttpGet("userDetails")]
-    //[Authorize]
-    public async Task<IActionResult> GetUserDetails()
-    {
-        var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Name)?.Value;
-
-        // Get the authenticated user's ID from the claims
-        if (userIdClaim == null)
-        {
-            return Unauthorized(new { message = "User is not authenticated" });
-        }
-
-        // Fetch the user from the database using UserManager
-        var user = await _userManager.FindByIdAsync(userIdClaim);
-
-        if (user == null)
-        {
-            return NotFound(new { message = "User not found" });
-        }
-
-        var roles = await _userManager.GetRolesAsync(user);
-
-        return Ok(new
-        {
-            User = new {
-                user.Id,
-                user.UserName,
-                user.Email
-            },
-            Roles = roles
-        });
-    }
+   
     private string GenerateJwtToken(string username)
     {
         var tokenHandler = new JwtSecurityTokenHandler();

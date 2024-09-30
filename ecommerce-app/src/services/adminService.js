@@ -1,9 +1,8 @@
 // src/services/adminService.js
 import axios from 'axios';
 
-//const API_URL = import.meta.env.VITE_API_URL; // Ensure this is set correctly
-const API_URL = 'http://localhost:5000/api/admin'; // Ensure this is set correctly
-
+const isProd = import.meta.env.VITE_IS_PROD === 'true';
+const API_URL = isProd ? `${import.meta.env.VITE_PROD_API_URL}/admin` : `${import.meta.env.VITE_DEV_API_URL_ADMIN_SERVICE}/admin`;
 
 export const fetchOrders = async () => {
     const response = await axios.get(`${API_URL}/orders`, {

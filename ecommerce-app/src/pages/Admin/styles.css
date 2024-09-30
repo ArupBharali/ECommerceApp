@@ -1,0 +1,17 @@
+.role-list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+}
+
+.role-item {
+    background-color: #f0f0f0; /* Light background for each item */
+    margin: 5px 0; /* Space between items */
+    padding: 10px; /* Padding inside items */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+    .role-item:hover {
+        background-color: #e0e0e0; /* Slightly darker on hover */
+    }
+

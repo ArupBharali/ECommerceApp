@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-//const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
-const API_URL = 'http://localhost:5000/api/auth'; // Ensure this is set correctly
-
+const isProd = import.meta.env.VITE_IS_PROD === 'true';
+const API_URL = isProd ? `${import.meta.env.VITE_PROD_API_URL}/auth` : `${import.meta.env.VITE_DEV_API_URL_AUTH_SERVICE}/auth`;
 
 export const login = async (username, password) => {
     console.log('auth service login');
@@ -14,24 +13,6 @@ export const login = async (username, password) => {
         return response.data.token;
     } catch (error) {
         console.error("Error logging in", error);
-        throw error;
-    }
-};
-
-export const getUserDetails = async () => {
-    try {
-        console.log('API_URL', API_URL);
-
-        const response = await axios.get(`${API_URL}/userDetails`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}` // Add your token if required
-            }
-        });
-
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching user details:', error);
         throw error;
     }
 };

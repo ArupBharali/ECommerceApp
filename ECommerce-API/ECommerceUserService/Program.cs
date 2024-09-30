@@ -64,6 +64,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ECommerceUserDbContext>()
     .AddDefaultTokenProviders();
 
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("AdminOrManagerOnly", policy => policy.RequireRole("Admin", "User"));
+//    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+//    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+//    options.AddPolicy("ManagerOnly", policy => policy.RequireRole("Manager"));
+//});
+
 // Add authentication services
 builder.Services.AddAuthentication(options =>
 {

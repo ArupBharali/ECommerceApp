@@ -3,6 +3,7 @@ import { Radio, Input, Spin, Typography, Layout } from 'antd';
 import ReactTable from '../../components/Grids/ReactTable/ReactTable';
 import PaginationControl from '../../components/Pagination/PaginationControl';
 import { getProducts } from '../../services/productService'; // Implement these services
+import RoleAssignment from './RoleAssignment'
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -130,9 +131,10 @@ const AdminDashboard = () => {
                 onChange={(e) => setSelectedTab(e.target.value)}
                 style={{ marginBottom: '20px' }}
             >
-                <Radio.Button value="products">Products</Radio.Button>
-                <Radio.Button value="orders">Orders</Radio.Button>
-                <Radio.Button value="users">Users</Radio.Button>
+                <Radio.Button value="products">Products Section</Radio.Button>
+                <Radio.Button value="orders">Orders Section</Radio.Button>
+                <Radio.Button value="users">Users Section</Radio.Button>
+                <Radio.Button value="user-role-assign">Manage User Roles</Radio.Button>
             </Radio.Group>
 
             {loading ? (
@@ -141,31 +143,35 @@ const AdminDashboard = () => {
                 </Content>
             ) : (
                 <div>
-                    <Input.Search
-                        placeholder="Search..."
-                        onSearch={handleSearch}
-                        style={{ marginBottom: '20px' }}
-                    />
+                    {selectedTab === 'user-role-assign' && <RoleAssignment />}
+                    {(selectedTab === 'products' || selectedTab === 'orders' || selectedTab === 'users') &&
+                        <>
+                            <Input.Search
+                                placeholder="Search..."
+                                onSearch={handleSearch}
+                                style={{ marginBottom: '20px' }}
+                            />
 
-                    <ReactTable
-                        columns={columns}
-                        data={data}
-                        pageIndex={pageNumber - 1}
-                        pageSize={pageSize}
-                        setPageSize={setPageSize}
-                        gotoPage={setPageNumber}
-                        onPageSizeChange={setPageSize}
-                        columnFilters={columnFilters}
-                        setColumnFilters={setColumnFilters}
-                    />
+                            <ReactTable
+                                columns={columns}
+                                data={data}
+                                pageIndex={pageNumber - 1}
+                                pageSize={pageSize}
+                                setPageSize={setPageSize}
+                                gotoPage={setPageNumber}
+                                onPageSizeChange={setPageSize}
+                                columnFilters={columnFilters}
+                                setColumnFilters={setColumnFilters}
+                            />
 
-                    <PaginationControl
-                        pageNumber={pageNumber}
-                        pageSize={pageSize}
-                        total={totalRecords}
-                        onPageChange={setPageNumber}
-                        onPageSizeChange={setPageSize}
-                    />
+                            <PaginationControl
+                                pageNumber={pageNumber}
+                                pageSize={pageSize}
+                                total={totalRecords}
+                                onPageChange={setPageNumber}
+                                onPageSizeChange={setPageSize}
+                            />
+                        </>}
                 </div>
             )}
         </div>

@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-//const API_URL = `${import.meta.env.VITE_API_URL}/product`;
-const API_URL = 'http://localhost:5000/api/product'; // Ensure this is set correctly
-
+const isProd = import.meta.env.VITE_IS_PROD === 'true';
+const API_URL = isProd ? `${import.meta.env.VITE_PROD_API_URL}/products` : `${import.meta.env.VITE_DEV_API_URL_PRODUCT_SERVICE}/products`;
 
 export const getProducts = async (parameters) => {
     try {
