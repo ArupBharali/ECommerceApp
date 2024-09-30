@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./ECommerce-API/ECommerceApiGateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"  # Adjust port mappings as needed
+    volumes:
+      - ./ECommerce-API/ECommerceApiGateway/ocelot.json:/app/ocelot.json  # Adjust path as needed      
+      - ./ECommerce-API/ECommerceApiGateway/appsettings.json:/app/appsettings.json  # Adjust path as needed      
+    networks:
+      - redis-network  # Connect to the same network as Redis
+
+  product-api:
+    build:
+      context: ./ECommerce-API/ECommerceProductService
+      dockerfile: Dockerfile
+    ports:
+      - "5268:5268"  # Adjust port mappings as needed
+    volumes:
+      - ./ECommerce-API/ECommerceProductService/appsettings.json:/app/appsettings.json  # Adjust path as needed      
+    networks:
+      - redis-network  # Connect to the same network as Redis
+
+  user-api:
+    build:
+      context: ./ECommerce-API/ECommerceUserService
+      dockerfile: Dockerfile
+    ports:
+      - "5269:5269"  # Adjust port mappings as needed
+    volumes:
+      - ./ECommerce-API/ECommerceUserService/appsettings.json:/app/appsettings.json  # Adjust path as needed
+    networks:
+      - redis-network  # Connect to the same network as Redis
+      
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "5090:9090"  # Expose Prometheus on port 9090
+    volumes:
+      - ./ECommerce-API/prometheus.yml:/etc/prometheus/prometheus.yml  # Mount the config file
+    networks:
+      - redis-network  # Ensure it can communicate with other services      
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "5091:3000"  # Map host port 3000 to container port 3000
+    networks:
+      - redis-network  # Connect to the same network as Redis and other services
+
+  redis:
+    image: redis:latest  # Use the latest Redis image
+    container_name: redis-server  # Name of the container
+    ports:
+      - "6379:6379"  # Expose port 6379 to the host
+    volumes:
+      - redis-data:/data  # Persist data using a volume
+    networks:
+      - redis-network  # Define a custom network
+
+  react-app:
+    build:
+      context: ./ecommerce-app  # Update this to your React app directory
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"  # Map host port 5173 to container port 80
+    networks:
+      - redis-network
+      
+volumes:
+  redis-data:  # Define a named volume for Redis data persistence
+
+networks:
+  redis-network:  # Define a custom network for Redis
+    driver: bridge
