@@ -1,0 +1,48 @@
+/* Navbar.css */
+
+nav {
+    display: flex;
+    position: fixed;
+    top: 0; /* Aligns it to the top */
+    left: 0; /* Aligns it to the left */
+    width: 100%; /* Full width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    z-index: 1000; /* Ensures it's above other content */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #001529; /* Change this to your preferred background color */
+}
+
+ul {
+display: flex;
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+ul li {
+margin: 0 10px;
+}
+
+ul li a {
+color: white; /* Change this to your preferred text color */
+text-decoration: none;
+}
+
+ul li a:hover {
+text-decoration: underline; /* Optional: Adds underline on hover */
+}
+
+ul.left-items {
+margin: 0;
+}
+
+ul.right-items {
+margin: 0;
+margin-left: auto; /* Pushes right items to the right */
+}
+
+.text-white {
+color: white; /* Ensures text color is white for the welcome message */
+}
