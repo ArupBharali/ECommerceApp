@@ -23,28 +23,30 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and push react front end app
+      working-directory: ./ecommerce-app
       run: |
-        cd ./ecommerce-app
         docker build -t arupbharali/react-app:latest .
         docker push arupbharali/react-app:latest 
 
     - name: Build and push apigateway-service
+      working-directory: ./ECommerce-API/ECommerceApiGateway
       run: |
         cd ./ECommerce-API/ECommerceApiGateway
         docker build -t arupbharali/apigateway-service:latest .
         docker push arupbharali/apigateway-service:latest
 
-    - name: Build and push user-service
+    - name: Build and push product-service
+      working-directory: ./ECommerce-API/ECommerceProductService
       run: |
-        cd ./ECommerce-API/ECommerceUserService
+        docker build -t arupbharali/product-service:latest .
+        docker push arupbharali/product-service:latest
+
+    - name: Build and push user-service
+      working-directory: ./ECommerce-API/ECommerceUserService
+      run: |
         docker build -t arupbharali/user-service:latest .
         docker push arupbharali/user-service:latest     
 
-    - name: Build and push product-service
-      run: |
-        cd ./ECommerce-API/ECommerceProductService
-        docker build -t arupbharali/product-service:latest .
-        docker push arupbharali/product-service:latest        
 
     # - name: Deploy to Server
       # env:
