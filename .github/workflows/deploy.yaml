@@ -18,7 +18,8 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t react-app:latest .
+        cd ./ecommerce-app
+        docker build -t arupbharali/react-app:latest .
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
@@ -32,15 +33,21 @@ jobs:
 
     - name: Build and push apigateway-service
       run: |
-        cd path/to/dotnet8-api
-        docker build -t arupbharali/ECommerce-API/ECommerceApiGateway/apigateway-service:latest .
-        docker push arupbharali/ECommerce-API/ECommerceApiGateway/apigateway-service:latest
+        cd ./ECommerce-API/ECommerceApiGateway
+        docker build -t arupbharali/apigateway-service:latest .
+        docker push arupbharali/apigateway-service:latest
 
     - name: Build and push .NET 6.0 API
       run: |
-        cd path/to/dotnet6-api
-        docker build -t arupbharali/ECommerce-API/ECommerceProductService/product-service:latest .
-        docker push arupbharali/ECommerce-API/ECommerceProductService/product-service:latest        
+        cd ./ECommerce-API/ECommerceUserService
+        docker build -t arupbharali/user-service:latest .
+        docker push arupbharali/user-service:latest     
+
+    - name: Build and push .NET 6.0 API
+      run: |
+        cd ./ECommerce-API/ECommerceProductService
+        docker build -t arupbharali/product-service:latest .
+        docker push arupbharali/product-service:latest        
 
     # - name: Deploy to Server
       # env:
