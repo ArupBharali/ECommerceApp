@@ -31,7 +31,6 @@ jobs:
     - name: Build and push apigateway-service
       working-directory: ./ECommerce-API/ECommerceApiGateway
       run: |
-        cd ./ECommerce-API/ECommerceApiGateway
         docker build -t arupbharali/apigateway-service:latest .
         docker push arupbharali/apigateway-service:latest
 
