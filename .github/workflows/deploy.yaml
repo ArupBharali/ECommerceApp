@@ -29,7 +29,7 @@ jobs:
 
     - name: Push Docker image react-app:latest
       run: |
-        docker push react-app:latest 
+        docker push arupbharali/react-app:latest 
 
     - name: Build and push apigateway-service
       run: |
