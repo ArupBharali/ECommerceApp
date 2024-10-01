@@ -4,56 +4,54 @@ on:
   push:
     branches:
       - main  # Change this to your default branch if necessary
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push react front end app
-      working-directory: ./ecommerce-app
-      run: |
-        docker build -t arupbharali/react-app:latest .
-        docker push arupbharali/react-app:latest 
+      - name: Build and push react front end app
+        working-directory: ./ecommerce-app
+        run: |
+          docker build -t arupbharali/react-app:latest .
+          docker push arupbharali/react-app:latest 
 
-    - name: Build and push apigateway-service
-      working-directory: ./ECommerce-API/ECommerceApiGateway
-      run: |
-        docker build -t arupbharali/apigateway-service:latest .
-        docker push arupbharali/apigateway-service:latest
+      - name: Build and push apigateway-service
+        working-directory: ./ECommerce-API/ECommerceApiGateway
+        run: |
+          docker build -t arupbharali/apigateway-service:latest .
+          docker push arupbharali/apigateway-service:latest
 
-    - name: Build and push product-service
-      working-directory: ./ECommerce-API/ECommerceProductService
-      run: |
-        docker build -t arupbharali/product-service:latest .
-        docker push arupbharali/product-service:latest
+      - name: Build and push product-service
+        working-directory: ./ECommerce-API/ECommerceProductService
+        run: |
+          docker build -t arupbharali/product-service:latest .
+          docker push arupbharali/product-service:latest
 
-    - name: Build and push user-service
-      working-directory: ./ECommerce-API/ECommerceUserService
-      run: |
-        docker build -t arupbharali/user-service:latest .
-        docker push arupbharali/user-service:latest     
+      - name: Build and push user-service
+        working-directory: ./ECommerce-API/ECommerceUserService
+        run: |
+          docker build -t arupbharali/user-service:latest .
+          docker push arupbharali/user-service:latest
 
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
 
-    # - name: Deploy to Server
-      # env:
-        # SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        # HOST: ${{ secrets.HOST }}
-        # USER: ${{ secrets.USER }}
-      # run: |
-        # echo "$SSH_PRIVATE_KEY" > private_key
-        # chmod 600 private_key
-        # ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST 'docker pull your-docker-image-name:latest && docker stop your-container-name || true && docker rm your-container-name || true && docker run -d -p 80:80 --name your-container-name your-docker-image-name:latest'
-
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install apigateway-service ./ECommerce-API/ECommerceApiGateway --namespace your-namespace --set image.tag=latest
+          helm upgrade --install product-service ./ECommerce-API/ECommerceProductService --namespace your-namespace --set image.tag=latest
+          helm upgrade --install user-service ./ECommerce-API/ECommerceUserService --namespace your-namespace --set image.tag=latest
