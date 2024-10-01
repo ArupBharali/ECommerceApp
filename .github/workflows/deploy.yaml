@@ -27,7 +27,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push Docker image react-app
+    - name: Push Docker image react-app:latest
       run: |
         docker push react-app:latest 
 
