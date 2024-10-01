@@ -52,6 +52,6 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install apigateway-service ./ECommerce-API/ECommerceApiGateway --namespace your-namespace --set image.tag=latest
-          helm upgrade --install product-service ./ECommerce-API/ECommerceProductService --namespace your-namespace --set image.tag=latest
-          helm upgrade --install user-service ./ECommerce-API/ECommerceUserService --namespace your-namespace --set image.tag=latest
+          helm upgrade --install apigateway-service ./ECommerce-API/ECommerceApiGateway --namespace production --set image.tag=latest
+          helm upgrade --install product-service ./ECommerce-API/ECommerceProductService --namespace production --set image.tag=latest
+          helm upgrade --install user-service ./ECommerce-API/ECommerceUserService --namespace production --set image.tag=latest
