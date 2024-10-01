@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app3
+  template:
+    metadata:
+      labels:
+        app: react-app3
+    spec:
+      containers:
+      - name: react-app3
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - name: http
+          containerPort: 80

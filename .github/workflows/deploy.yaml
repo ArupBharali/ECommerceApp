@@ -1,0 +1,54 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if necessary
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: |
+        docker build -t react-app:latest .
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push Docker image react-app
+      run: |
+        docker push react-app:latest 
+
+    - name: Build and push apigateway-service
+      run: |
+        cd path/to/dotnet8-api
+        docker build -t arupbharali/ECommerce-API/ECommerceApiGateway/apigateway-service:latest .
+        docker push arupbharali/ECommerce-API/ECommerceApiGateway/apigateway-service:latest
+
+    - name: Build and push .NET 6.0 API
+      run: |
+        cd path/to/dotnet6-api
+        docker build -t arupbharali/ECommerce-API/ECommerceProductService/product-service:latest .
+        docker push arupbharali/ECommerce-API/ECommerceProductService/product-service:latest        
+
+    # - name: Deploy to Server
+      # env:
+        # SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        # HOST: ${{ secrets.HOST }}
+        # USER: ${{ secrets.USER }}
+      # run: |
+        # echo "$SSH_PRIVATE_KEY" > private_key
+        # chmod 600 private_key
+        # ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST 'docker pull your-docker-image-name:latest && docker stop your-container-name || true && docker rm your-container-name || true && docker run -d -p 80:80 --name your-container-name your-docker-image-name:latest'
+

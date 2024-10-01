@@ -18,8 +18,7 @@ RUN npm run build
 
 # Debugging step: List contents of the /app directory
 RUN ls -al /app
-RUN ls -al /app/build || echo "Build directory not found."
-RUN ls -al /app/dist || echo "dist directory not found."
+RUN ls -al /app/dist || echo "Build directory not found."
 
 # Use Nginx to serve the React app
 FROM nginx:alpine
